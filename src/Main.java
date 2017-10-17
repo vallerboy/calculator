@@ -1,4 +1,5 @@
 import javax.jws.soap.SOAPBinding;
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Main {
@@ -7,17 +8,19 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
 
-        do{
+        boolean hasTwoNumbers = false;
+        boolean hasOneNumber = false;
 
+        do{
             System.out.println("------------");
-            if(x != 0 && y != 0) {
+            if(hasTwoNumbers) {
                 System.out.println("0 - dodawanie");
                 System.out.println("1 - odejmowanie");
                 System.out.println("2 - mnozenie");
                 System.out.println("3 - dzielenie");
                 System.out.println("7 - potegowanie");
             }
-            if(x != 0 && y == 0) {
+            if(!hasTwoNumbers && hasOneNumber) {
                 System.out.println("4 - pierwiastek");
             }
             System.out.println("5 - wprowadz liczby");
@@ -32,43 +35,57 @@ public class Main {
                     System.out.print("Wpisz wartosc liczby 1: ");
                     x = Double.parseDouble(scanner.nextLine());
 
-                    System.out.print("Wpisz wartosc liczby 2: ");
-                    y = Double.parseDouble(scanner.nextLine());
+                    hasTwoNumbers = false;
+                    hasOneNumber = true;
+                    System.out.print("Chcesz wprowadzić jeszcze jedną liczbę?");
+                    String answer = scanner.nextLine();
+
+                    if(answer.equalsIgnoreCase("tak")){
+                        System.out.print("Wpisz wartosc liczby 2: ");
+                        y = Double.parseDouble(scanner.nextLine());
+                        hasTwoNumbers = true;
+                        hasOneNumber = false;
+                    }
                     break;
                 }
 
                 case "0": {
                     System.out.println("Wynik dodawania to: " + (x + y));
-                    x = 0;
-                    y = 0;
+                    hasTwoNumbers = false;
                     break;
                 }
 
                 case "1": {
                     System.out.println("Wynik odejmowania to: " + (x - y));
-                    x = 0;
-                    y = 0;
+                    hasTwoNumbers = false;
                     break;
                 }
 
                 case "2": {
                     System.out.println("Wynik mnozenia to: " + (x * y));
-                    x = 0;
-                    y = 0;
+                    hasTwoNumbers = false;
                     break;
                 }
 
                 case "3": {
+                    if(y == 0){
+                        System.out.println("Nie mozna dzielic prez 0");
+                        hasTwoNumbers = false;
+                        break;
+                    }
                     System.out.println("Wynik dzielenia to: " + (x / y));
-                    x = 0;
-                    y = 0;
+                    hasTwoNumbers = false;
                     break;
                 }
 
                 case "4": {
+                    if(x < 0){
+                        System.out.println("Nie mozna pierwiastkwowac liczb ujemnych");
+                        hasTwoNumbers = false;
+                        break;
+                    }
                     System.out.println("Pierwiastek kwadratowy z " + x + ", wynosi: " + Math.sqrt(x));
-                    x = 0;
-                    y = 0;
+                    hasTwoNumbers = false;
                     break;
                 }
 
@@ -78,13 +95,12 @@ public class Main {
                         pow *= x;
                     }
                     System.out.println("Potega o wykladniku " + y + " z liczby " + x + " wynosi " + pow);
-                    x = 0;
-                    y = 0;
+                    hasTwoNumbers = false;
                     break;
                 }
 
                 case "6": {
-                     System.exit(0);
+                      System.exit(0);
                 }
 
             }
